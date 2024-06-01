@@ -6,11 +6,12 @@ const EventCard = ({
   description,
   date,
   time,
+
 }) => (
   <Card className="text-center">
     <Card.Header>{description}</Card.Header>
     <Card.Body>
-      <Card.Text>Time: {time}</Card.Text>
+      <Card.Title>Time: {time}</Card.Title>
     </Card.Body>
     <Card.Footer className="text-muted">Date: {date}</Card.Footer>
   </Card>
@@ -18,8 +19,9 @@ const EventCard = ({
 
 EventCard.propTypes = {
   description: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+
 };
 
 export default EventCard;
