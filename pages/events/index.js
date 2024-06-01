@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getEvents } from '../../api/eventData';
+import { getEvents } from '../../utils/eventData';
 import EventCard from '../../components/EventCard';
 
-function EventPage() {
+function Home() {
   const [events, setEvents] = useState([]);
 
   const getAllEvents = () => {
@@ -25,4 +25,4 @@ function EventPage() {
   );
 }
 
-export default EventPage;
+export default Home;
