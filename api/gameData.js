@@ -32,11 +32,17 @@ const createGame = (game) => new Promise((resolve, reject) => {
 });
 
 const getGameTypes = () => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/gamestypes`)
+  fetch(`${clientCredentials.databaseURL}/gametypes`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
     .then((response) => response.json())
-    .then(resolve)
+    .then((data) => resolve(data))
     .catch(reject);
 });
+
 const updateGame = (game) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/games`, {
     method: 'PUT',
@@ -51,16 +57,16 @@ const updateGame = (game) => new Promise((resolve, reject) => {
 });
 
 const getSingleGame = (id) => new Promise((resolve, reject) => {
-    fetch(`${clientCredentials.databaseURL}/games/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => resolve(data))
-      .catch(reject);
-  });
+  fetch(`${clientCredentials.databaseURL}/games/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
 
 // eslint-disable-next-line import/prefer-default-export
 export {

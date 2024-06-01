@@ -114,9 +114,7 @@ GameForm.propTypes = {
     id: PropTypes.number,
     skill_level: PropTypes.number,
     number_of_players: PropTypes.number,
-    game_type: PropTypes.shape({
-      id: PropTypes.number,
-    }).isRequired,
+    game_type: PropTypes.number.isRequired,
   }),
   user: PropTypes.shape({
     uid: PropTypes.string.isRequired,
