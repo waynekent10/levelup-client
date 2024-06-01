@@ -1,7 +1,7 @@
-import { clientCredentials } from '../utils/client';
+const endpoint = 'http://localhost:8000';
 
 const getEvents = () => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/events`)
+  fetch(`${endpoint.databaseURL}/games`)
     .then((response) => response.json())
     .then(resolve)
     .catch(reject);

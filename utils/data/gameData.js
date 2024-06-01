@@ -1,4 +1,4 @@
-import { clientCredentials } from '../utils/client';
+import { clientCredentials } from '../client';
 
 const getGames = () => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/games`)

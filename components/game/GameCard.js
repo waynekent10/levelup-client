@@ -3,7 +3,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 
 const GameCard = ({
-  title, //
+  title,
   maker,
   numberOfPlayers,
   skillLevel,
