@@ -1,10 +1,10 @@
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../utils/context/authContext';
-import { getSingleGame } from '../../../api/gameData';
 import GameForm from '../../../components/game/GameForm';
+import { getSingleGame } from '../../../api/gameData';
 
-export default function EditGame() {
+export default function EditSingleGame() {
   const [editGame, setEditGame] = useState({});
   const router = useRouter();
   const { id } = router.query;
@@ -12,9 +12,10 @@ export default function EditGame() {
 
   useEffect(() => {
     getSingleGame(id).then(setEditGame);
+    // console.warn(editGame);
   }, [id]);
 
   return (
-    <GameForm gameObj={editGame} user={user} />
+    <GameForm user={user} obj={editGame} />
   );
 }

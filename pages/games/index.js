@@ -8,8 +8,11 @@ function Home() {
   const [games, setGames] = useState([]);
   const router = useRouter();
 
-  useEffect(() => {
+  const loadGames = () => {
     getGames().then((data) => setGames(data));
+  };
+  useEffect(() => {
+    loadGames();
   }, []);
 
   return (
@@ -25,10 +28,12 @@ function Home() {
       {games.map((game) => (
         <section key={`game--${game.id}`} className="game">
           <GameCard
+            id={game.id}
             title={game.title}
             maker={game.maker}
             numberOfPlayers={game.number_of_players}
             skillLevel={game.skill_level}
+            onUpdate={loadGames}
           />
         </section>
       ))}
