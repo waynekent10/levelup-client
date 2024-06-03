@@ -12,23 +12,24 @@ const initialState = {
   gameTypeId: 0,
 };
 
-const GameForm = ({ user, gameObj }) => {
+const GameForm = ({ user, obj }) => {
   const [gameTypes, setGameTypes] = useState([]);
   const [currentGame, setCurrentGame] = useState(initialState);
   const router = useRouter();
 
   useEffect(() => {
     getGameTypes().then(setGameTypes);
-    if (gameObj?.id) {
+    if (obj.id) {
       setCurrentGame({
-        title: gameObj.title,
-        maker: gameObj.maker,
-        skillLevel: gameObj.skill_level,
-        numberOfPlayers: gameObj.number_of_players,
-        gameTypeId: gameObj.game_type.id,
+        id: obj.id,
+        title: obj.title,
+        maker: obj.maker,
+        skillLevel: obj.skill_level,
+        numberOfPlayers: obj.number_of_players,
+        gameType: obj.game_type.id,
       });
     }
-  }, [gameObj]);
+  }, [obj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,71 +43,74 @@ const GameForm = ({ user, gameObj }) => {
     e.preventDefault();
 
     const game = {
+      id: obj.id,
       maker: currentGame.maker,
       title: currentGame.title,
       numberOfPlayers: Number(currentGame.numberOfPlayers),
       skillLevel: Number(currentGame.skillLevel),
-      gameTypeId: Number(currentGame.gameTypeId),
+      gameType: Number(currentGame.gameTypeId),
       userId: user.uid,
     };
 
-    if (gameObj?.id) {
-      game.id = gameObj.id;
-      updateGame(game).then(() => router.push(`/games/${gameObj.id}`));
+    if (obj?.id) {
+      game.id = obj.id;
+      updateGame(game).then(() => router.push('/games'));
     } else {
       createGame(game).then(() => router.push('/games'));
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3">
-        <Form.Label>Title</Form.Label>
-        <Form.Control name="title" required value={currentGame.title} onChange={handleChange} />
-      </Form.Group>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>Title</Form.Label>
+          <Form.Control name="title" required value={currentGame.title} onChange={handleChange} />
+        </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Label>Maker</Form.Label>
-        <Form.Control name="maker" required value={currentGame.maker} onChange={handleChange} />
-      </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Maker</Form.Label>
+          <Form.Control name="maker" required value={currentGame.maker} onChange={handleChange} />
+        </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Label>Number of Players</Form.Label>
-        <Form.Control name="numberOfPlayers" type="number" required value={currentGame.numberOfPlayers} onChange={handleChange} />
-      </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Number of Players</Form.Label>
+          <Form.Control name="numberOfPlayers" type="number" required value={currentGame.numberOfPlayers} onChange={handleChange} />
+        </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Label>Skill Level</Form.Label>
-        <Form.Control name="skillLevel" type="number" required value={currentGame.skillLevel} onChange={handleChange} />
-      </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Skill Level</Form.Label>
+          <Form.Control name="skillLevel" type="number" required value={currentGame.skillLevel} onChange={handleChange} />
+        </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Select
-          aria-label="Game Type"
-          name="gameTypeId"
-          onChange={handleChange}
-          className="mb-3"
-          value={currentGame.gameTypeId}
-          required
-        >
-          <option value="">Select a Game Type</option>
-          {gameTypes?.map((gameType) => (
-            <option key={gameType.id} value={gameType.id}>
-              {gameType.label}
-            </option>
-          ))}
-        </Form.Select>
-      </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Select
+            aria-label="Game Type"
+            name="gameTypeId"
+            onChange={handleChange}
+            className="mb-3"
+            value={currentGame.gameTypeId}
+            required
+          >
+            <option value="">Select a Game Type</option>
+            {gameTypes?.map((gameType) => (
+              <option key={gameType.id} value={gameType.id}>
+                {gameType.label}
+              </option>
+            ))}
+          </Form.Select>
+        </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+    </>
   );
 };
 
 GameForm.propTypes = {
-  gameObj: PropTypes.shape({
+  obj: PropTypes.shape({
     maker: PropTypes.string,
     title: PropTypes.string,
     numberOfPlayers: PropTypes.number,
@@ -114,7 +118,9 @@ GameForm.propTypes = {
     id: PropTypes.number,
     skill_level: PropTypes.number,
     number_of_players: PropTypes.number,
-    game_type: PropTypes.number.isRequired,
+    game_type: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    }),
   }),
   user: PropTypes.shape({
     uid: PropTypes.string.isRequired,
@@ -122,7 +128,7 @@ GameForm.propTypes = {
 };
 
 GameForm.defaultProps = {
-  gameObj: initialState,
+  obj: initialState,
 };
 
 export default GameForm;
